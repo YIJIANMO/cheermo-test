@@ -1,0 +1,79 @@
+import { motion } from 'framer-motion'
+import { FaShieldAlt, FaRulerCombined } from 'react-icons/fa'
+
+export default function WarrantyCard({ warrantyYears, series, locale }) {
+  const isRTL = locale === 'ar';
+
+  // ✅ 入场动画配置
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 } 
+    }
+  };
+
+  const shieldVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.6 } 
+    }
+  };
+
+  return (
+    <motion.div 
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      className="bg-white p-10 rounded-2xl border border-zinc-100 shadow-lg hover:shadow-xl transition-shadow duration-700 relative text-start overflow-hidden group"
+    >
+      {/* 底部装饰：增加高级感 */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-950/5"></div>
+
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-12 relative z-10">
+         
+         {/* ✨ 左侧：全新设计的银色金属盾牌 LOGO */}
+         <motion.div 
+            variants={shieldVariants}
+            className="flex-shrink-0 relative h-32 w-32 rounded-full border border-zinc-100 flex items-center justify-center shadow-lg transition-transform duration-500 group-hover:scale-105"
+            style={{
+              // ✅ 银色金属拉丝渐变效果
+              background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
+              boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 15px rgba(0,0,0,0.1)'
+            }}
+         >
+            {/* 盾牌图标：加深一个色阶以凸显层次 */}
+            <FaShieldAlt className="text-6xl text-zinc-950 opacity-80" />
+            
+            {/* 装饰内圈：增加金属光泽质感 */}
+            <div className="absolute inset-3 rounded-full border border-zinc-950/10 shadow-[inset_0_2px_2px_rgba(255,255,255,0.5)]"></div>
+         </motion.div>
+
+         {/* ✨ 右侧：重新排版的高清质保数字栏 */}
+         <div className="flex-grow pt-1 text-center md:text-start w-full">
+            <h4 className="text-[12px] md:text-[13px] font-bold uppercase text-zinc-400 mb-2 tracking-[0.25em]">
+              {locale === 'zh' ? '官方智造联保' : 'Official Warranty'}
+            </h4>
+            
+            <div className={`flex items-baseline justify-center md:justify-start gap-3 text-zinc-950 font-black leading-none mb-10`}>
+                {/* ✅ 调大数字字号，并使用纯黑代替灰色渐变，大幅提升清晰度 */}
+                <span className="text-9xl md:text-[140px] tracking-tighter leading-none pr-3">
+                    {warrantyYears}
+                </span>
+                <span className="text-3xl md:text-4xl font-bold text-zinc-400">
+                    {isRTL ? 'عام' : 'Yrs'}
+                </span>
+            </div>
+
+            {/* ✅ 底部描述文字微调：增加字号和字符间距 */}
+            <p className="text-zinc-600 text-sm md:text-base leading-relaxed font-medium pt-8 border-t border-zinc-100">
+               {locale === 'zh' ? `针对 ${series || '当前膜系列'} 提供 ${warrantyYears} 年官方级防黄变与脱胶质保。` : `Enjoy ${warrantyYears}-year global warranty for the ${series || 'current series'} collection.`}
+            </p>
+         </div>
+      </div>
+    </motion.div>
+  )
+}

@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Host
+Host: https://www.cheermo.com
+
+# Sitemaps
+Sitemap: https://www.cheermo.com/sitemap.xml
